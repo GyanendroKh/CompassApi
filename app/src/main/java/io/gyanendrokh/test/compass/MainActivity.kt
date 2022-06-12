@@ -13,7 +13,7 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.runtime.*
-import androidx.compose.ui.Alignment.Companion.CenterHorizontally
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalLifecycleOwner
@@ -132,19 +132,98 @@ fun App() {
 
     if (orientationAngles.value != null) {
         Column(
-            modifier = Modifier.padding(horizontal = 20.dp),
-            verticalArrangement = Arrangement.Center,
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(20.dp),
+            verticalArrangement = Arrangement.Center
         ) {
             Text(
-                text = "Azimuthal: ${Utils.convertAngle(orientationAngles.value!![0])}",
+                text = "Sensor Data",
                 style = TextStyle(
-                    fontSize = TextUnit(25f, TextUnitType.Sp)
+                    fontWeight = FontWeight.Bold,
+                    fontSize = TextUnit(28f, TextUnitType.Sp)
                 )
             )
-            Box(
-                modifier = Modifier
-                    .align(CenterHorizontally)
+            Spacer(modifier = Modifier.height(10.dp))
+
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceEvenly,
             ) {
+                Column(
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    Text(text = "Azimuthal")
+                    Text(
+                        text = String.format("%.6f", orientationAngles.value!![0]),
+                        style = TextStyle(
+                            fontWeight = FontWeight.Bold,
+                            fontSize = TextUnit(21f, TextUnitType.Sp)
+                        )
+                    )
+                }
+                Column(
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    Text(text = "Pitch")
+                    Text(
+                        text = String.format("%.6f", orientationAngles.value!![1]),
+                        style = TextStyle(
+                            fontWeight = FontWeight.Bold,
+                            fontSize = TextUnit(21f, TextUnitType.Sp)
+                        )
+                    )
+                }
+                Column(
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    Text(text = "Roll")
+                    Text(
+                        text = String.format("%.6f", orientationAngles.value!![2]),
+                        style = TextStyle(
+                            fontWeight = FontWeight.Bold,
+                            fontSize = TextUnit(21f, TextUnitType.Sp)
+                        )
+                    )
+                }
+            }
+            Spacer(modifier = Modifier.height(20.dp))
+
+            Column(
+                modifier = Modifier
+                    .align(Alignment.CenterHorizontally),
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                Text(
+                    text = "Azimuthal Angle",
+                    style = TextStyle(
+                        fontSize = TextUnit(21f, TextUnitType.Sp)
+                    )
+                )
+                Text(
+                    text = String.format(
+                        "%.2fdeg",
+                        Utils.convertAngle(orientationAngles.value!![0])
+                    ),
+                    style = TextStyle(
+                        fontSize = TextUnit(25f, TextUnitType.Sp)
+                    )
+                )
+            }
+            Spacer(modifier = Modifier.height(15.dp))
+
+            Column(
+                modifier = Modifier
+                    .align(Alignment.CenterHorizontally),
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                Text(
+                    text = "Cardinal Direction",
+                    style = TextStyle(
+                        fontWeight = FontWeight.Bold,
+                        fontSize = TextUnit(24f, TextUnitType.Sp)
+                    )
+                )
                 Text(
                     text = Utils.calculateDirection(orientationAngles.value!![0]),
                     style = TextStyle(
@@ -155,6 +234,11 @@ fun App() {
             }
         }
     } else {
-        Text(text = "Initializing...")
+        Box(
+            modifier = Modifier.fillMaxSize(),
+            contentAlignment = Alignment.Center
+        ) {
+            Text(text = "Initializing...")
+        }
     }
 }
